@@ -1,3 +1,0 @@
-SHA256:h3pUpQ2Li43+LhrDL4kCIIk34PeOvV6NM/FYV+7jr2o
-
-https://github.com/SinhHoang283/auto_class_java_cucumber
