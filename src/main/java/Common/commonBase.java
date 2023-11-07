@@ -10,11 +10,16 @@ public class commonBase {
     public WebDriver initChromeDriver(String URL)
     {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("start-maximized");  //mở toàn màn hình ngay từ khởi tạo option
+//        if (headless.equals("True")) {
+//            options.addArguments("--headless");  //chạy healess - không cần mở màn hình
+//        }
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});// xoá dòng Chrome is being controlled by automated test software
+        options.addArguments("disable-infobars");
         System.setProperty("webdriver.chrome.driver",
                 System.getProperty("user.dir") + "\\driver\\chromedriver.exe");
         // For MAC: System.getProperty("user.dir") + "/driver/chromedriver");
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
         driver.get(URL);
         driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
         return driver;
