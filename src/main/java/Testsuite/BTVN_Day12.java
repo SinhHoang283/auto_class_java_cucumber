@@ -9,7 +9,7 @@ public class BTVN_Day12 extends commonBase{
     public void OpenChrome(){
         driver= initChromeDriver("https://demo.seleniumeasy.com/input-form-demo.html");
     }
-    @Test
+    @Test(priority=1)
     public void dropdownListStage() throws InterruptedException {
         WebElement selectStage=driver.findElement(By.xpath("//select[@name='state']"));
         Select dropdownList = new Select(selectStage);
@@ -22,10 +22,9 @@ public class BTVN_Day12 extends commonBase{
         System.out.println("option 2: " + dropdownList.getFirstSelectedOption().getText());
 
     }
-    @Test
+    @Test(priority=2)
     public void checkboxHosting() throws InterruptedException {
         WebElement checkboxHostingYes = driver.findElement(By.xpath("//input[@value='yes']"));
-        boolean stt = checkboxHostingYes.isSelected();
         if (checkboxHostingYes.isSelected()== false){
             checkboxHostingYes.click();
             System.out.println("check box yes đã đc click");
