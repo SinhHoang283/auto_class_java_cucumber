@@ -1,5 +1,7 @@
 package Common;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +12,10 @@ public class commonBase {
     public WebDriver initChromeDriver(String URL)
     {
         ChromeOptions options = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<String, Object>();
+        prefs.put("credentials_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);   // tắt save password popup
+        options.setExperimentalOption("prefs", prefs);
         options.addArguments("start-maximized");  //mở toàn màn hình ngay từ khởi tạo option
 //        if (headless.equals("True")) {
 //            options.addArguments("--headless");  //chạy healess - không cần mở màn hình
@@ -23,5 +29,14 @@ public class commonBase {
         driver.get(URL);
         driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
         return driver;
+    }
+
+    public void CloseAllDriver(){
+        if (driver!=null){
+            driver.close();
+            driver.quit();
+
+        }
+
     }
 }
