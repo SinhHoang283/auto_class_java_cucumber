@@ -13,8 +13,7 @@ import static org.testng.Assert.assertTrue;
 public class BTVN_day14_alada_page extends commonBase {
     @BeforeMethod
     public void openUrlWithChrome(){
-//        driver=initChromeDriver(CT_constans_Acounts.URL_ALADA_SIGNIN);
-        driver=initChromeDriver(CT_constans_Acounts.URL_ALADA_LOGIN);
+        driver=initChromeDriver(CT_constans_Acounts.URL_ALADA);
     }
     @Test(priority = 1)
     public void TC1dangKiTaiKhoanAlada() throws InterruptedException {

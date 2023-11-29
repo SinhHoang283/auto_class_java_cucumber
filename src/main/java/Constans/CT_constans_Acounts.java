@@ -13,8 +13,6 @@ public class CT_constans_Acounts {
     public static By LABLE_SIGNOUT = By.xpath("//a[normalize-space()='Sign Out']");
     /// Trang Alada
     public static String URL_ALADA ="https://alada.vn/";
-    public static String URL_ALADA_SIGNIN ="https://alada.vn/tai-khoan/dang-ky.html";
-    public static String URL_ALADA_LOGIN ="https://alada.vn/tai-khoan/dang-nhap.html";
     public static String ALADA_USER1="sinhhoang2546@gmail.com";
     public static String PASS1_USER1 ="12345678";
     public static String PASS2_USER1 ="abc123456";

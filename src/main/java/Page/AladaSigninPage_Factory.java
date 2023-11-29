@@ -11,7 +11,7 @@ import java.util.Random;
 public class AladaSigninPage_Factory {
     private WebDriver driver;
     @FindBy(xpath="//span[@class='box-item-login']/a")
-    WebElement btnDangKi;
+    WebElement btnBamSangTrangDangKi;
     @FindBy(id="txtFirstname")
     WebElement txtboxHoVaTen;
     @FindBy(id="txtEmail")
@@ -57,8 +57,7 @@ public class AladaSigninPage_Factory {
         PageFactory.initElements(_driver, this);
     }
     public void dangKiTaiKhoan(String hoVaTen, String email, String matKhau, String soDienThoai) {
-
-        buttonDangKi.click();
+        btnBamSangTrangDangKi.click();
         txtboxHoVaTen.sendKeys(hoVaTen);
         txtboxDiaChiEmail.sendKeys(email);
         txtboxNhapLaiEmail.sendKeys(email);

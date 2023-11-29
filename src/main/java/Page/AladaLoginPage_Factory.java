@@ -31,8 +31,11 @@ public class AladaLoginPage_Factory {
     @FindBy(xpath="//input[@id='txtpassword']")
     WebElement textboxNhapMatKhauCu;
 
+    @FindBy(xpath="//span[@class='box-item-login bor']/a")
+    WebElement btnBamSangTrangDangNhap;
 
     public void dangNhapAlada(String user, String password){
+        btnBamSangTrangDangNhap.click();
         txtboxDiachiEmai.sendKeys(user);
         txtboxMatKhau.sendKeys(password);
         btnDangNhap.click();
