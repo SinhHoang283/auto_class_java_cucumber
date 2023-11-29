@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -50,11 +52,21 @@ public class commonBase {
         }
     }
 
+    public void handleAlert(String msgAlert){
+        Alert alert = driver.switchTo().alert();
+        // Get the text from the alert
+        String alertText = alert.getText();
+        System.out.println( alertText);
+    }
+    public void scrollDownPageByJS(int pixels){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,"+pixels+")");
+    }
 
     public void CloseAllDriver(){
         if (driver!=null){
             driver.close();
-            driver.quit();
+//            driver.quit();
 
         }
 
