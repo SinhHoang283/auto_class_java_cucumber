@@ -56,7 +56,7 @@ public class commonBase {
         Alert alert = driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
-        System.out.println( alertText);
+        System.out.println("Alert Text: " + alertText);
     }
     public void scrollDownPageByJS(int pixels){
         JavascriptExecutor js = (JavascriptExecutor) driver;
