@@ -27,7 +27,7 @@ public class BTVN_day14_alada_page extends commonBase {
         assertTrue(driver.findElement(CT_constans_Acounts.LABLE_USER_IMAGE).isDisplayed());
     }
     @Test(priority = 2)
-    public void TC1DangNhapTaiKhoanVaDoiMatKhauAlada() throws InterruptedException {
+    public void TC2DangNhapTaiKhoanVaDoiMatKhauAlada() throws InterruptedException {
         AladaLoginPage_Factory login = new AladaLoginPage_Factory(driver);
         login.dangNhapAlada(ALADA_USER1,PASS1_USER1);
         assertTrue(driver.findElement(CT_constans_Acounts.LABLE_USER_IMAGE).isDisplayed());

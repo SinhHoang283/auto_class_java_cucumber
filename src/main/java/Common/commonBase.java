@@ -5,14 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 
 public class commonBase {
     public WebDriver driver;
@@ -63,12 +59,27 @@ public class commonBase {
         js.executeScript("window.scrollBy(0,"+pixels+")");
     }
 
+    public void WaitElementIsVisibleAndClick(String locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        WebElement element = driver.findElement(By.xpath(locator));
+        wait.until(ExpectedConditions.visibilityOf(element));
+        // Perform actions on the visible element
+        element.click();
+    }
+
     public void CloseAllDriver(){
         if (driver!=null){
             driver.close();
-//            driver.quit();
+            driver.quit();
 
         }
 
+    }
+
+    public static void selectDropdownOption(WebDriver driver, String dropdownLocatorContainsText, String optionText) {
+        WebElement dropdown = driver.findElement(By.xpath(dropdownLocatorContainsText)); // Replace By.id with your appropriate locator strategy
+        String dropdownLocatorNew = dropdownLocatorContainsText + "[text()='"+optionText+"']";
+        System.out.println(optionText + " Successfully selected");
+        driver.findElement(By.xpath(dropdownLocatorNew)).click();
     }
 }
