@@ -47,13 +47,115 @@ public class commonBase {
             return false;
         }
     }
+    public WebElement getElementPresentDOM(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return driver.findElement(locator);
+    }
+
+    public void click(By locator) {
+        WebElement element = getElementPresentDOM(locator);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        element.click();
+    }
+
+    // 2. elementToBeClickable bị exception do element đó không cho phép Click(ElementClickInterceptedException)
+    public void clickByJsExecutor(By locator)
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", locator);
+    }
+
+    /* Handle SenKeys
+     * Happy case: FindElement và sendKey thành công
+     * Unhappy case/ Negative case: 2 trường hợp
+     * 1. FindElement văng ra exception (xử lý đợi explicit wait cho hàm FindElement) => done bằng getElementPresentDOM
+     * */
+    public void type(By locator, String value) {
+        WebElement element = getElementPresentDOM(locator);
+        element.clear();
+        element.sendKeys(value);
+    }
+
+    // 2. SendKeys không thành công do element readonly/ không cho nhập bằng bình thường (ElementNotInteractableException)
+    public void typeInValue_ByJsExecutor(By locator, String value) throws InterruptedException
+    {
+        WebElement element = getElementPresentDOM(locator);
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].value = '" + value + "'", element);
+        } catch (StaleElementReferenceException ex) {
+            pause(1000);
+            typeInValue_ByJsExecutor(locator, value);
+        }
+    }
+    public void inputTextJavaScript_ToInnerHTMLAttribute(By inputElement, String value) {
+        WebElement element = driver.findElement(inputElement);
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        try {
+            executor.executeScript("arguments[0].innerHTML = '" + value + "'", element);
+        } catch (StaleElementReferenceException ex) {
+            pause(1000);
+            inputTextJavaScript_ToInnerHTMLAttribute(inputElement, value);
+        }
+    }
+
+    // Handle Thread.sleep(miliSeconds);
+    public void pause(long miliSeconds)
+    {
+        try {
+            Thread.sleep(miliSeconds);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //Handle Scroll tới element MÀ VẪN NHÌN THẤY TRÊN MÀN HÌNH (scroll đến element cuối cùng nhìn thấy trên màn hình)
+    public void scrollToElement(By locator) {
+        WebElement element = getElementPresentDOM(locator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
 
     public void handleAlert(String msgAlert){
         Alert alert = driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
+        alertText.equals(msgAlert);
         System.out.println("Alert Text: " + alertText);
+        driver.switchTo().alert().accept();
+
+
     }
+    public void handleAcceptAlert(String msgAlert){
+        Alert alert = driver.switchTo().alert();
+        // Get the text from the alert
+        String alertText = alert.getText();
+        alertText.equals(msgAlert);
+        System.out.println("Alert Text: " + alertText);
+        driver.switchTo().alert().accept();
+    }
+    public void handleDimissAlert(String msgAlert){
+        Alert alert = driver.switchTo().alert();
+        // Get the text from the alert
+        String alertText = alert.getText();
+        alertText.equals(msgAlert);
+        System.out.println("Alert Text: " + alertText);
+        driver.switchTo().alert().dismiss();
+    }
+
+    public void handleAlertAndSendkey(String msgAlert, String textSendkey){
+        Alert alert = driver.switchTo().alert();
+        // Get the text from the alert
+        String alertText = alert.getText();
+        alertText.equals(msgAlert);
+        System.out.println("Alert Text: " + alertText);
+        pause(2000);
+        driver.switchTo().alert().sendKeys(textSendkey);
+        driver.switchTo().alert().accept();
+    }
+
     public void scrollDownPageByJS(int pixels){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,"+pixels+")");
