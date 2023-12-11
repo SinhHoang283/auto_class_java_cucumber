@@ -8,11 +8,12 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 
 public class commonBase {
     public WebDriver driver;
-    private int initWaitTime =10;
+    private int initWaitTime =12;
 
     public WebDriver initChromeDriver(String URL)
     {
@@ -118,40 +119,63 @@ public class commonBase {
     }
 
 
-    public void handleAlert(String msgAlert){
-        Alert alert = driver.switchTo().alert();
+    public void handleAlert(String expectedText){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
-        alertText.equals(msgAlert);
         System.out.println("Alert Text: " + alertText);
+        if (alertText.equals(expectedText)) {
+            System.out.println("Alert text is equal to the expected value: " + expectedText);
+        } else {
+            System.out.println("Alert text is not equal to the expected value.");
+        }
         driver.switchTo().alert().accept();
 
 
     }
-    public void handleAcceptAlert(String msgAlert){
-        Alert alert = driver.switchTo().alert();
+    public void handleAcceptAlert(String expectedText){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
-        alertText.equals(msgAlert);
         System.out.println("Alert Text: " + alertText);
+        if (alertText.equals(expectedText)) {
+            System.out.println("Alert text is equal to the expected value: " + expectedText);
+        } else {
+            System.out.println("Alert text is not equal to the expected value.");
+        }
         driver.switchTo().alert().accept();
     }
-    public void handleDimissAlert(String msgAlert){
-        Alert alert = driver.switchTo().alert();
+    public void handleDimissAlert(String expectedText){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
-        alertText.equals(msgAlert);
         System.out.println("Alert Text: " + alertText);
+        if (alertText.equals(expectedText)) {
+            System.out.println("Alert text is equal to the expected value: " + expectedText);
+        } else {
+            System.out.println("Alert text is not equal to the expected value.");
+        }
         driver.switchTo().alert().dismiss();
     }
 
-    public void handleAlertAndSendkey(String msgAlert, String textSendkey){
-        Alert alert = driver.switchTo().alert();
+    public void handleAlertAndSendkey(String expectedText, String textSendkey){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(initWaitTime));
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert();
         // Get the text from the alert
         String alertText = alert.getText();
-        alertText.equals(msgAlert);
         System.out.println("Alert Text: " + alertText);
-        pause(2000);
+        if (alertText.equals(expectedText)) {
+            System.out.println("Alert text is equal to the expected value: " + expectedText);
+        } else {
+            System.out.println("Alert text is not equal to the expected value.");
+        }
         driver.switchTo().alert().sendKeys(textSendkey);
         driver.switchTo().alert().accept();
     }
@@ -159,6 +183,18 @@ public class commonBase {
     public void scrollDownPageByJS(int pixels){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,"+pixels+")");
+    }
+
+    public void scrollDownPageByButton_PgDn(By startPositionLocator, By expectLocator){
+        WebElement element = getElementPresentDOM(startPositionLocator);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].focus();", element);
+        for (int i=0; i<10;i++){
+            Actions actions = new Actions(driver);
+            actions.sendKeys(Keys.PAGE_DOWN).perform();
+            boolean check = driver.findElement(expectLocator).isDisplayed();
+            if (check==true) break;
+        }
     }
 
     public void WaitElementIsVisibleAndClick(String locator) {
